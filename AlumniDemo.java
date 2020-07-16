@@ -1,12 +1,12 @@
 import java.util.*;
 import java.io.*;
 
-class Employee{
+class Students{
 
 	String name1;
 	int num;
 
-	Employee(String m, int n){
+	Students(String m, int n){
 		name1=m;
 		num=n;
 	}
@@ -16,10 +16,12 @@ class Employee{
 		}
 	}
 
- class AlumniDemo{
+public class AlumniDemo{
+
  	static int sum=0;
 	public static void main(String args[])throws Exception{
 	Scanner sc=new Scanner(System.in);
+
 	System.out.println("Welcome to Alumni management System");	
 	System.out.println("-------------------------------------------");
 	System.out.println("1.Register a society");
@@ -74,13 +76,15 @@ case 2:
 	output.write("fund received in event "+ (i+1) +":"+fund);
 	output.newLine();
 	}
+
 	output.write("Total Annual funds: "+sum+" Rupees");
 	output.close();
+
 break;
 
 
 case 3:
-		Employee emp[] = new Employee[10];
+		Students std[] = new Students[10];
 		File file = new File("details.txt");
 		String name1;
 		int i=0;
@@ -89,8 +93,8 @@ case 3:
 		while(input.hasNext()) {
 			name1=input.next();
 			n2=input.nextInt();
-			emp[i]=new Employee(name1,n2);
-			emp[i].details();
+			std[i]=new Students(name1,n2);
+			std[i].details();
 		}
 break;
 
