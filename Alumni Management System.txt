@@ -1,0 +1,150 @@
+package prjt1;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+import java.sql.Connection;
+import java.sql.Statement;
+import java.sql.*;
+ 
+public class cls {
+
+	public static void main(String[] args)throws Exception {
+		
+		try{  
+			Class.forName("oracle.jdbc.driver.OracleDriver");  
+			  
+			Connection con=DriverManager.getConnection(  
+			"jdbc:oracle:thin:@localhost:1521:kartheek","hr","hr");
+			
+			Statement stmt=con.createStatement();
+			
+			String reg="create table register(SocietyName varchar2(20),Chairman varchar2(20),phoneNumber varchar2(20))";
+			String fun="create table FUNDS(ID number primary key,FundMoney INTEGER)";
+			String mem="create table MEMBERS(NAME varchar2(20),PhoneNumber varchar2(20))";
+			//stmt.executeUpdate(mem);
+			//stmt.executeUpdate(reg);
+			//stmt.executeUpdate(fun);
+			
+			String ch1="n";
+			
+		do {
+		
+		System.out.println("Welcome to Alumni management System");	
+		System.out.println("-------------------------------------------");
+		System.out.println("1.Register a society");
+		System.out.println("2.Calculate the annual returns");
+		System.out.println("3.List of organisation members");
+		System.out.println("4.Total list of organisation Members");
+		System.out.println();
+		System.out.print("Enter your choice:");
+		
+		Scanner sc=new Scanner(System.in);
+		int ch=sc.nextInt();
+		 
+		if(ch==1) {
+			
+			 System.out.print("Enter the name of your Society:");
+			 String societyname=sc.next();
+			 System.out.print("Enter the Chairman of the Society:");
+			 String Chairman1 =sc.next();
+			 System.out.print("Enter the phone number of Chairman:");
+			 String phno=sc.next();
+			 
+			String str="insert into register values(?,?,?)";
+			 
+			 PreparedStatement preparedStatement=con.prepareStatement(str);
+			 preparedStatement.setString(1,societyname);  
+			 preparedStatement.setString(2,Chairman1);  
+			 preparedStatement.setString(3,phno);  
+			 int x1=preparedStatement.executeUpdate();  
+			 System.out.println();System.out.println();
+			 if(x1==1)
+				 System.out.println("Society Registered Successfully.................!!!");
+			 else
+				 System.out.println("Society Registration Failed.");
+				 
+		}
+		
+		else if(ch==2) {
+			
+			String f="insert into FUNDS values(?,?)";
+			System.out.print("Enter the Event ID:");
+			int fundid=sc.nextInt();
+			System.out.print("Enter money aquired in that event:");
+			int fundmoney=sc.nextInt();
+			 PreparedStatement preparedStatement=con.prepareStatement(f);
+			 preparedStatement.setInt(1,fundid);  
+			 preparedStatement.setInt(2,fundmoney);  
+			
+			 int x2=preparedStatement.executeUpdate();  
+			 System.out.println();System.out.println();
+			 if(x2==1)
+				 System.out.println("Events are Successfully Registered.................!!!");
+			 else
+				 System.out.println("Events Registration Failed.");
+			 
+			 ResultSet results = stmt.executeQuery("SELECT * FROM FUNDS");
+			 int sum=0;
+			 while (results.next()) {
+				  int data = results.getInt(1);
+				  int data1 = results.getInt(2);
+				  System.out.println(data+"\t\t"+data1);
+				  sum=sum+data1;
+				}
+			 System.out.println("Annual returns of Funds are : "+sum+" Rupees");
+			
+			
+		}
+		else if(ch==3) {
+			 ResultSet res = stmt.executeQuery("SELECT * FROM MEMBERS");
+			int flag=0;
+			 while (res.next()) {
+				 if(flag==0) {
+				 System.out.println("Name"+"\t\t"+" Phone number");
+				 System.out.println("------"+"\t\t"+"--------------");}
+				  String name1 = res.getString(1);
+				  String p = res.getString(2);
+				  System.out.println(name1+"\t\t"+p);
+				  flag=1;
+				}
+			 if(flag==0) {
+				 System.out.println("No Existing Records");
+			 }
+			
+		}
+		else if(ch==4) {
+			String in="insert into members values(?,?)";
+			 PreparedStatement preparedStatement=con.prepareStatement(in);
+			 int t;
+			 System.out.print("Enter number of members to be registered:");
+			 t=sc.nextInt();
+			 while(t!=0) {
+				 System.out.print("Please enter member name:");
+				 String nm=sc.next();
+				 System.out.print("Please enter member phone number:");
+				 String pno=sc.next();
+				 preparedStatement.setString(1,nm);  
+				 preparedStatement.setString(2,pno);
+				 t--;
+			 }
+			 int x3=preparedStatement.executeUpdate();
+			 if(x3==1)
+				 System.out.println("Members are successfully registered.................!!!");
+			 else
+				 System.out.println("Member Registration Failed.");
+			 
+		}
+		
+		else {
+			System.out.println("Enter a valid Option");
+		}
+		System.out.println("Do you want to Register another society?(y/n)");
+		ch1 =sc.next();
+		
+		
+		
+		}while(ch1.equals("y") || ch1=="Y" || ch1=="yes" || ch1=="YES");
+		}
+		catch(Exception e){ System.out.println(e);}
+	}
+}
