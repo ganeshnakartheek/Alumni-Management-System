@@ -34,7 +34,7 @@ public class cls {
 		System.out.println("1.Register a society");
 		System.out.println("2.Calculate the annual returns");
 		System.out.println("3.List of organisation members");
-		System.out.println("4.Total list of organisation Members");
+		System.out.println("4.Add members to the organisation");
 		System.out.println();
 		System.out.print("Enter your choice:");
 		
